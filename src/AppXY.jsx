@@ -3,7 +3,6 @@ import "./AppXY.css";
 
 function AppXY(props) {
   const [position, setPosition] = useState({ x: 0, y: 0, z: 0 });
-  const pointer = document.getElementsByClassName("pointer");
   const onPointerMove = (e) => {
     // setPosition({ x: e.clientX, y: e.clientY });
     setPosition((prev) => ({ ...prev, x: e.clientX }));
