@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 
 function Products(props) {
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState();
   const [count, setCount] = useState(0);
   const [products, setProducts] = useState([]);
   const [checked, setChecked] = useState(false);
@@ -8,16 +10,24 @@ function Products(props) {
 
   // 데이터를 네트워크를 통해 한번만 받아오고 싶을 때! useEffect
   useEffect(() => {
+    setLoading(true);
+    setError(undefined);
     fetch(`data/${checked ? "sale_" : ""}products.json`)
       .then((res) => res.json())
       .then((data) => {
         console.log("success");
         setProducts(data);
-      });
+      })
+      .catch((e) => setError("에러가 발생했음!"))
+      .finally(() => setLoading(false));
     return () => {
       console.log("clean");
     };
   }, [checked]);
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>{error}</p>;
+
   return (
     <>
       <input
